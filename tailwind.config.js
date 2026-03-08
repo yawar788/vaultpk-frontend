@@ -7,11 +7,19 @@ export default {
         navy: {
           DEFAULT: '#0f1f3d',
           light: '#1a3260',
-          mid: '#162850',
         },
         gold: {
           DEFAULT: '#c9a84c',
           light: '#e0bc5e',
+        },
+        cream: {
+          DEFAULT: '#faf7f2',
+          dark: '#f5f0e8',
+        },
+        brown: {
+          DEFAULT: '#2C1810',
+          mid: '#614E3A',
+          light: '#8B7355',
         },
       },
       fontFamily: {

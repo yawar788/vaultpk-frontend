@@ -48,17 +48,43 @@ export default function Navbar() {
           {/* Auth */}
           {user ? (
             <div className="relative group">
-              <button className="text-white/80 hover:text-gold text-sm font-medium transition-colors">
+              {/* Trigger button — extra bottom padding creates invisible bridge to menu */}
+              <button className="text-white/80 hover:text-gold text-sm font-medium transition-colors px-2 py-4">
                 👤 {user.name.split(' ')[0]}
               </button>
-              <div className="absolute right-0 top-8 bg-white rounded-lg shadow-xl w-48 py-2 hidden group-hover:block z-50">
-                {user.role === 'admin' && (
-                  <Link to="/admin" className="block px-4 py-2 text-sm text-navy hover:bg-gray-50">🔐 Admin Panel</Link>
-                )}
-                <Link to="/orders" className="block px-4 py-2 text-sm text-navy hover:bg-gray-50">📦 My Orders</Link>
-                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-50">
-                  🚪 Logout
-                </button>
+
+              {/* Dropdown — sits directly below with no gap */}
+              <div className="absolute right-0 top-10 w-52 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                {/* invisible bridge so mouse can travel from button to menu */}
+                <div className="h-2 w-full" />
+                <div className="bg-white rounded-xl shadow-2xl border border-gray-100 py-2 overflow-hidden">
+                  <div className="px-4 py-2 border-b border-gray-100 mb-1">
+                    <p className="text-xs text-gray-400">Signed in as</p>
+                    <p className="text-sm font-semibold text-navy truncate">{user.email}</p>
+                  </div>
+                  {user.role === 'admin' && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-navy hover:bg-gray-50 transition-colors"
+                    >
+                      🔐 <span>Admin Panel</span>
+                    </Link>
+                  )}
+                  <Link
+                    to="/orders"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-navy hover:bg-gray-50 transition-colors"
+                  >
+                    📦 <span>My Orders</span>
+                  </Link>
+                  <div className="border-t border-gray-100 mt-1 pt-1">
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 w-full text-left px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
+                    >
+                      🚪 <span>Logout</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           ) : (
@@ -67,7 +93,7 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Mobile menu */}
+          {/* Mobile menu toggle */}
           <button className="md:hidden text-white text-xl" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? '✕' : '☰'}
           </button>
@@ -81,7 +107,13 @@ export default function Navbar() {
           <Link to="/shop" className="text-white/80 hover:text-gold text-sm" onClick={() => setMenuOpen(false)}>Shop</Link>
           <Link to="/cart" className="text-white/80 hover:text-gold text-sm" onClick={() => setMenuOpen(false)}>Cart ({count})</Link>
           {user ? (
-            <button onClick={handleLogout} className="text-left text-red-400 text-sm">Logout</button>
+            <>
+              {user.role === 'admin' && (
+                <Link to="/admin" className="text-white/80 hover:text-gold text-sm" onClick={() => setMenuOpen(false)}>Admin Panel</Link>
+              )}
+              <Link to="/orders" className="text-white/80 hover:text-gold text-sm" onClick={() => setMenuOpen(false)}>My Orders</Link>
+              <button onClick={handleLogout} className="text-left text-red-400 text-sm">Logout</button>
+            </>
           ) : (
             <Link to="/login" className="text-white/80 hover:text-gold text-sm" onClick={() => setMenuOpen(false)}>Login</Link>
           )}
